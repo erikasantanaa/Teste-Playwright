@@ -1,0 +1,37 @@
+
+stages:
+  - install
+  - test
+
+variables:
+  PLAYWRIGHT_BROWSERS_PATH: /root/.cache/ms-playwright
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - .cache/ms-playwright
+
+install_dependencies:
+  stage: install
+  image: node:20
+  script:
+    - npm ci
+    - npx playwright install --with-deps
+
+run_tests:
+  stage: test
+  image: node:20
+  script:
+    - npm run test
+    - npx playwright show-report --output=playwright-report
+    
+  artifacts:
+    when: always
+    paths:
+      - playwright-report
+    expire_in: 1 week
+  only:
+    - main
+    - merge_requests
+    - dev
