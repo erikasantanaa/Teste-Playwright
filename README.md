@@ -1,4 +1,4 @@
-# testeNiucoQA - Testes Automatizados com Playwright (UI + API)
+# Testes Automatizados com Playwright (UI + API)
 
 
 
